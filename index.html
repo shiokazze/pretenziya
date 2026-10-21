@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Претензия за 2 минуты</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f5f2;--card:#fff;--ink:#1c1b19;--mute:#6b675f;--line:#e2dfd8;--acc:#d4421a;--accink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141311;--card:#1e1d1a;--ink:#f0ede6;--mute:#9a958a;--line:#33312c;--acc:#ff6a3d;--accink:#141311}}
+:root[data-theme="dark"]{--bg:#141311;--card:#1e1d1a;--ink:#f0ede6;--mute:#9a958a;--line:#33312c;--acc:#ff6a3d;--accink:#141311}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.1;margin:8px 0 6px;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:0 0 22px;max-width:560px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:860px){.grid{grid-template-columns:420px 1fr;align-items:start}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:10px 8px;font:inherit;font-size:14px;cursor:pointer;text-align:left}
+.tab[aria-pressed="true"]{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent);font-weight:600}
+label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
+input,select,textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 10px}
+textarea{min-height:76px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--mute);margin-top:4px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button.act{font:inherit;font-weight:600;border-radius:10px;padding:11px 16px;border:1px solid var(--acc);cursor:pointer;background:var(--acc);color:var(--accink)}
+button.act.sec{background:transparent;color:var(--ink);border-color:var(--line)}
+.paper{background:#fff;color:#111;border-radius:10px;padding:26px 24px;font:14px/1.6 "Times New Roman",Georgia,serif;white-space:pre-wrap;word-wrap:break-word;min-height:360px;border:1px solid var(--line)}
+.warn{font-size:12px;color:var(--mute);margin-top:12px}
+.toast{color:var(--acc);font-size:13px;margin-left:4px;align-self:center}
+.paper.locked{max-height:400px;overflow:hidden;user-select:none;-webkit-mask-image:linear-gradient(#000 45%,transparent 96%);mask-image:linear-gradient(#000 45%,transparent 96%)}
+@media print{body{background:#fff}.wrap>*:not(.grid),.grid>.card:first-child,.btns,.warn,.pv-title{display:none!important}.grid{display:block}.card{border:0;padding:0;background:#fff}.paper{border:0;padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Претензия за 2 минуты</h1>
+  <p class="sub">Заказ не пришёл, пришёл брак или не вернули деньги? Заполни поля и получи готовый текст со ссылками на закон.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tabs" id="tabs"></div>
+      <label>Кому (продавец или маркетплейс)</label>
+      <input id="to" list="tos" placeholder="ООО «РВБ» или ИП из карточки товара">
+      <datalist id="tos"><option value="ООО «РВБ»"><option value="ООО «Интернет Решения»"></datalist>
+      <div class="hint" id="toh"></div>
+      <label>Адрес получателя</label><input id="toAddr">
+      <div class="row"><div><label>Твоё ФИО</label><input id="fio"></div><div><label>Телефон или e-mail</label><input id="contact"></div></div>
+      <label>Твой адрес</label><input id="addr">
+      <div class="row"><div><label>Номер заказа</label><input id="order"></div><div><label>Дата заказа</label><input id="odate" type="date"></div></div>
+      <label>Товар</label><input id="item" placeholder="Например, наушники XYZ">
+      <div class="row"><div><label>Сумма, ₽</label><input id="sum" type="number" min="0"></div><div><label id="kdl">Дата</label><input id="kdate" type="date"></div></div>
+      <div id="reqBox"><label>Что требуешь</label><select id="req"><option value="refund">Вернуть деньги</option><option value="replace">Заменить на такой же товар</option></select></div>
+      <div id="probBox"><label id="pl">Что не так</label><textarea id="prob" placeholder="Опиши коротко, по фактам"></textarea></div>
+      <div class="btns">
+        <button class="act" id="copy">Копировать</button>
+        <button class="act sec" id="print">Печать / PDF</button>
+        <span class="toast" id="toast"></span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="pv-title" style="font-size:13px;color:var(--mute);margin-bottom:8px">Предпросмотр</div>
+      <div class="paper" id="doc"></div>
+      <div class="warn">Шаблон не заменяет консультацию юриста. Проверь реквизиты и факты перед отправкой. Отправляй письмом с описью и уведомлением или через личный кабинет, чтобы сохранить доказательство.</div>
+    </div>
+  </div>
+</div>
+<div id="pm" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:16px;z-index:20"><div class="card" style="max-width:420px"><b>Пока бесплатно</b><p id="pmt"></p><div class="btns"><button class="act" onclick="track('would_pay_yes');document.getElementById('pm').style.display='none'">Да, заплатил бы</button><button class="act sec" onclick="track('would_pay_no');document.getElementById('pm').style.display='none'">Нет</button></div></div></div>
+<script>
+var S=[
+ {k:'defect',t:'Брак или недостаток',kd:'Дата получения',pl:'В чём недостаток',req:1},
+ {k:'wrong',t:'Прислали не тот товар',kd:'Дата получения',pl:'Что заказано и что пришло',req:1},
+ {k:'refund',t:'Деньги за возврат не пришли',kd:'Дата возврата товара',pl:'Как оформляли возврат',req:0},
+ {k:'late',t:'Заказ не доставили',kd:'Срок доставки по заказу',pl:'Что известно о заказе',req:0},
+ {k:'seller',t:'Не знаю, кто продавец',kd:'Дата заказа',pl:'Какой информации нет',req:0}
+];
+var cur=0,$=function(i){return document.getElementById(i)};
+var F=['to','toAddr','fio','contact','addr','order','odate','item','sum','kdate','req','prob'];
+function fd(v){if(!v)return '___';var p=v.split('-');return p[2]+'.'+p[1]+'.'+p[0]}
+function v(i){var x=$(i).value.trim();return x||'___'}
+function build(){
+  var s=S[cur],sum=v('sum'),item=v('item'),ord=v('order'),od=fd($('odate').value),kd=fd($('kdate').value),prob=$('prob').value.trim()||'___';
+  var rep=$('req').value==='replace'&&s.req;
+  var h='Кому: '+v('to')+'\nАдрес: '+v('toAddr')+'\n\nОт: '+v('fio')+'\nАдрес: '+v('addr')+'\nКонтакты: '+v('contact')+'\n\n\n';
+  var t='ПРЕТЕНЗИЯ\n\n';
+  var base='Дата оформления заказа № '+ord+': '+od+'. Товар: '+item+', стоимость '+sum+' руб.\n\n';
+  var end='\n\nОтвет на претензию прошу направить письменно по указанному адресу. Если требование не будет выполнено в срок, я буду вынужден(а) обратиться в суд и потребовать неустойку, компенсацию морального вреда (ст. 15 Закона РФ «О защите прав потребителей») и штраф 50% от присуждённой суммы (п. 6 ст. 13 того же закона).\n\nПриложения: копия заказа или чека, скриншоты переписки, фото.\n\nДата: '+fd(new Date().toISOString().slice(0,10))+'          Подпись: ____________';
+  var b='';
+  if(s.k==='defect'||s.k==='wrong'){
+    b=base+'Товар получен '+kd+'. '+(s.k==='defect'?'Обнаружен недостаток: ':'Выявлено несоответствие заказу: ')+prob+'.\n\nНа основании ст. 18 Закона РФ «О защите прав потребителей» требую '+(rep?'заменить товар на такой же надлежащего качества':'вернуть уплаченную сумму '+sum+' руб.')+(rep?'. Согласно ст. 21 закона замена производится в течение 7 дней со дня предъявления требования':'. Согласно ст. 22 закона требование подлежит удовлетворению в течение 10 дней со дня его предъявления')+'. За просрочку предусмотрена неустойка 1% цены товара за каждый день (ст. 23).'+end;
+  }else if(s.k==='refund'){
+    b=base+'Товар возвращён '+kd+'. '+prob+'. Деньги до настоящего времени не возвращены.\n\nВ соответствии со ст. 26.1 и ст. 22 Закона РФ «О защите прав потребителей» требую вернуть уплаченную сумму '+sum+' руб. в течение 10 дней со дня получения претензии. За просрочку предусмотрена неустойка 1% цены товара за каждый день (ст. 23).'+end;
+  }else if(s.k==='late'){
+    b=base+'Срок доставки: '+kd+'. Заказ не передан до настоящего времени. '+prob+'.\n\nНа основании ст. 23.1 Закона РФ «О защите прав потребителей» требую вернуть предоплату '+sum+' руб. в течение 10 дней со дня получения претензии. За нарушение срока передачи товара предусмотрена неустойка 0,5% суммы предоплаты за каждый день просрочки (ст. 23.1).\n\nНастоящим я отказываюсь от исполнения договора в связи с нарушением срока передачи товара. Если претензия направлена владельцу агрегатора, прошу считать её также требованием о возврате предоплаты по п. 2.2 ст. 12 закона (10 календарных дней) и передать продавцу это уведомление об отказе от договора.'+end;
+  }else{
+    b=base+'В заказе и на странице товара отсутствует информация о продавце: '+prob+'.\n\nНа основании ст. 8, 9 и 12 (п. 1 и 2.1) Закона РФ «О защите прав потребителей» требую в течение 10 дней со дня получения претензии сообщить полное наименование (ФИО) продавца, его юридический адрес, ИНН и ОГРН (ОГРНИП), а также контактные данные для предъявления требований по качеству товара. Если информация не будет предоставлена, оставляю за собой право отказаться от исполнения договора и потребовать возврата уплаченной суммы и возмещения убытков (п. 1 ст. 12 закона).\n\nОтвет прошу направить письменно по указанному адресу.\n\nПриложения: копия заказа, скриншоты страницы товара и заказа.\n\nДата: '+fd(new Date().toISOString().slice(0,10))+'          Подпись: ____________';
+  }
+  $('doc').textContent=h+t+b;$('doc').className='paper'+(paid?'':' locked');
+}
+function setTab(i){
+  cur=i;var s=S[i];
+  Array.prototype.forEach.call($('tabs').children,function(b,j){b.setAttribute('aria-pressed',j===i)});
+  $('kdl').textContent=s.kd;$('toh').textContent=HINTS[s.k]||'';$('pl').textContent=s.pl;$('reqBox').style.display=s.req?'':'none';
+  build();
+}
+S.forEach(function(s,i){var b=document.createElement('button');b.className='tab';b.textContent=s.t;b.onclick=function(){setTab(i)};$('tabs').appendChild(b)});
+F.forEach(function(i){$(i).addEventListener('input',function(){if(!window._st){window._st=1;track('form_start')}build()});$(i).addEventListener('change',build)});
+function toast(m){$('toast').textContent=m;setTimeout(function(){$('toast').textContent=''},1800)}
+$('copy').onclick=function(){
+  track('copy');
+  var t=$('doc').textContent;
+  try{navigator.clipboard.writeText(t).then(function(){toast('Скопировано')},function(){fb(t)})}catch(e){fb(t)}
+};
+function fb(t){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('Скопировано')}catch(e){toast('Выдели текст вручную')}document.body.removeChild(a)}
+$('print').onclick=function(){track('print');try{window.print()}catch(e){toast('Открой страницу в отдельной вкладке')}};
+var HINTS={defect:'За качество отвечает продавец, а не сам маркетплейс (п. 2.1 ст. 12). Его название и адрес смотри в карточке товара или в заказе.',wrong:'За качество отвечает продавец, а не сам маркетплейс (п. 2.1 ст. 12). Его название и адрес смотри в карточке товара или в заказе.',refund:'Деньги обычно держит маркетплейс. Адрес и реквизиты бери из оферты на его сайте (ООО «РВБ» для Wildberries, ООО «Интернет Решения» для Ozon).',late:'Можно писать маркетплейсу: он принимает отказ от договора и обязан передать его продавцу (п. 2.2 ст. 12). Адрес бери из оферты.',seller:'Пиши маркетплейсу: сведения о продавце он должен публиковать на своём сайте (ст. 9).'};
+var PRICE=299,PAY_URL='',paid=true;
+var YM_ID=0,PAY_TEXT='Сервис в тестовом режиме, документ открыт бесплатно: нажми «Скопировать» ещё раз. Один вопрос: заплатил бы 299 ₽ за такую готовую претензию?';
+function track(g){try{if(window.ym&&YM_ID)ym(YM_ID,'reachGoal',g)}catch(e){}}
+if(YM_ID){window.ym=window.ym||function(){(ym.a=ym.a||[]).push(arguments)};ym.l=+new Date();var ys=document.createElement('script');ys.async=1;ys.src='https://mc.yandex.ru/metrika/tag.js';document.head.appendChild(ys);ym(YM_ID,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true})}
+function pay(){track('pay_click');paid=true;$('copy').textContent='Скопировать';$('print').textContent='Печать / PDF';build();$('pm').style.display='flex';$('pmt').textContent=PAY_TEXT}
+if(!paid){$('copy').textContent='Скопировать — '+PRICE+' ₽';$('print').textContent='PDF — '+PRICE+' ₽'}
+setTab(0);
+</script>
+</body>
+</html>
