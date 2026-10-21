@@ -34,7 +34,8 @@ button.act.sec{background:transparent;color:var(--ink);border-color:var(--line)}
 .warn{font-size:12px;color:var(--mute);margin-top:12px}
 .toast{color:var(--acc);font-size:13px;margin-left:4px;align-self:center}
 .paper.locked{max-height:400px;overflow:hidden;user-select:none;-webkit-mask-image:linear-gradient(#000 45%,transparent 96%);mask-image:linear-gradient(#000 45%,transparent 96%)}
-@media print{body{background:#fff}.wrap>*:not(.grid),.grid>.card:first-child,.btns,.warn,.pv-title{display:none!important}.grid{display:block}.card{border:0;padding:0;background:#fff}.paper{border:0;padding:0}}
+@page{size:A4;margin:0}
+@media print{body{background:#fff}.wrap>*:not(.grid),.grid>.card:first-child,.btns,.warn,.pv-title{display:none!important}.grid{display:block}.card{border:0;padding:0;background:#fff}.paper{border:0;padding:18mm 20mm;min-height:0}}
 </style>
 </head>
 <body>
@@ -58,7 +59,7 @@ button.act.sec{background:transparent;color:var(--ink);border-color:var(--line)}
       <div id="probBox"><label id="pl">Что не так</label><textarea id="prob" placeholder="Опиши коротко, по фактам"></textarea></div>
       <div class="btns">
         <button class="act" id="copy">Копировать</button>
-        <button class="act sec" id="print">Печать / PDF</button>
+        <button class="act sec" id="print">Скачать PDF</button>
         <span class="toast" id="toast"></span>
       </div>
     </div>
@@ -116,7 +117,7 @@ $('copy').onclick=function(){
   try{navigator.clipboard.writeText(t).then(function(){toast('Скопировано')},function(){fb(t)})}catch(e){fb(t)}
 };
 function fb(t){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('Скопировано')}catch(e){toast('Выдели текст вручную')}document.body.removeChild(a)}
-$('print').onclick=function(){track('print');try{window.print()}catch(e){toast('Открой страницу в отдельной вкладке')}};
+$('print').onclick=function(){track('print');toast('В окне выбери «Сохранить как PDF»');try{window.print()}catch(e){toast('Открой страницу в отдельной вкладке')}};
 var HINTS={defect:'За качество отвечает продавец, а не сам маркетплейс (п. 2.1 ст. 12). Его название и адрес смотри в карточке товара или в заказе.',wrong:'За качество отвечает продавец, а не сам маркетплейс (п. 2.1 ст. 12). Его название и адрес смотри в карточке товара или в заказе.',refund:'Деньги обычно держит маркетплейс. Адрес и реквизиты бери из оферты на его сайте (ООО «РВБ» для Wildberries, ООО «Интернет Решения» для Ozon).',late:'Можно писать маркетплейсу: он принимает отказ от договора и обязан передать его продавцу (п. 2.2 ст. 12). Адрес бери из оферты.',seller:'Пиши маркетплейсу: сведения о продавце он должен публиковать на своём сайте (ст. 9).'};
 var PRICE=299,PAY_URL='',paid=true;
 var YM_ID=0,PAY_TEXT='Сервис в тестовом режиме, документ открыт бесплатно: нажми «Скопировать» ещё раз. Один вопрос: заплатил бы 299 ₽ за такую готовую претензию?';
