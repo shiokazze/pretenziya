@@ -71,6 +71,7 @@ button.act.sec{background:transparent;color:var(--ink);border-color:var(--line)}
   </div>
 </div>
 <div id="pm" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:16px;z-index:20"><div class="card" style="max-width:420px"><b>Пока бесплатно</b><p id="pmt"></p><div class="btns"><button class="act" onclick="track('would_pay_yes');document.getElementById('pm').style.display='none'">Да, заплатил бы</button><button class="act sec" onclick="track('would_pay_no');document.getElementById('pm').style.display='none'">Нет</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 var S=[
  {k:'defect',t:'Брак или недостаток',kd:'Дата получения',pl:'В чём недостаток',req:1},
@@ -117,7 +118,7 @@ $('copy').onclick=function(){
   try{navigator.clipboard.writeText(t).then(function(){toast('Скопировано')},function(){fb(t)})}catch(e){fb(t)}
 };
 function fb(t){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('Скопировано')}catch(e){toast('Выдели текст вручную')}document.body.removeChild(a)}
-$('print').onclick=function(){track('print');toast('В окне выбери «Сохранить как PDF»');try{window.print()}catch(e){toast('Открой страницу в отдельной вкладке')}};
+$('print').onclick=function(){track('print');if(window.html2pdf){toast('Готовлю PDF…');try{html2pdf().set({margin:[15,18,15,18],filename:'pretenziya.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}}).from($('doc')).save().then(function(){toast('Готово')});return}catch(e){}}toast('В окне выбери «Сохранить как PDF»');try{window.print()}catch(e){toast('Открой страницу в отдельной вкладке')}};
 var HINTS={defect:'За качество отвечает продавец, а не сам маркетплейс (п. 2.1 ст. 12). Его название и адрес смотри в карточке товара или в заказе.',wrong:'За качество отвечает продавец, а не сам маркетплейс (п. 2.1 ст. 12). Его название и адрес смотри в карточке товара или в заказе.',refund:'Деньги обычно держит маркетплейс. Адрес и реквизиты бери из оферты на его сайте (ООО «РВБ» для Wildberries, ООО «Интернет Решения» для Ozon).',late:'Можно писать маркетплейсу: он принимает отказ от договора и обязан передать его продавцу (п. 2.2 ст. 12). Адрес бери из оферты.',seller:'Пиши маркетплейсу: сведения о продавце он должен публиковать на своём сайте (ст. 9).'};
 var PRICE=299,PAY_URL='',paid=true;
 var YM_ID=0,PAY_TEXT='Сервис в тестовом режиме, документ открыт бесплатно: нажми «Скопировать» ещё раз. Один вопрос: заплатил бы 299 ₽ за такую готовую претензию?';
